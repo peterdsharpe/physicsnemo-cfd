@@ -1,0 +1,10 @@
+*.vtu
+*.vtu.*.part
+*.vtp
+*.vtk
+*.stl
+*.html
+__pycache__/
+.ipynb_checkpoints
+*.egg-info
+build/

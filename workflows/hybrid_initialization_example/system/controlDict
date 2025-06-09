@@ -1,0 +1,64 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// libs            (petscFoam);
+
+application     pimpleFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         2500;  // Based on convergence criteria seen in initialization paper; 0.5 seconds of simulation time
+
+deltaT          0.0002;
+
+writeControl    timeStep;
+
+writeInterval   1; // 1000
+
+purgeWrite      2;
+
+writeFormat     ascii;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+{
+    #include "FOs/FOforceCoeffs"
+    #include "FOs/FOyPlus"
+    #include "FOs/FOfieldAverage"
+    #include "FOs/FOwallShearStress"
+    #include "FOs/FOforces"
+    #include "FOs/FOprobes"
+    #include "FOs/FOtime"
+    // #include "FOs/FOsurfaceFieldValue"
+    // #include "FOs/FOsurfaceDistance"
+    // #include "FOs/FOnearWallFields"
+}
+
+
+// ************************************************************************* //

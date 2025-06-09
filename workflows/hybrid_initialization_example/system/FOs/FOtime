@@ -1,0 +1,11 @@
+time
+{
+    type            time;
+
+    libs            ("libutilityFunctionObjects.so");
+
+    writeControl    timeStep;
+    writeInterval   1;
+
+    perTimeStep     no;
+}

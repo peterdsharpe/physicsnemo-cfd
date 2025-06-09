@@ -1,0 +1,15 @@
+probes1
+{
+    // Mandatory entries
+    type                probes;
+    libs                (sampling);
+    probeLocations
+    (
+	(0.0 0.0 0.65)	 // inside boundary layer on front hood of car
+	(0.92 -0.38 1.0) // outside boundary layer on left side of front windshield
+	(1.7 -0.8 0.7)	 // inside wake behind the left mirror, near the B-pillar
+	(3.09 -0.4 0.9)	 // left side of the rear window, 1 cm above surface
+
+    );
+    fields              (U p);
+}

@@ -1,0 +1,58 @@
+image:
+  name: nvcr.io/nvidia/physicsnemo/physicsnemo:25.03
+  entrypoint: [""]
+
+stages:
+  - lint
+  - interrogate
+  - license
+  - test
+
+default:
+  before_script:
+    - pip install -e .
+    - pip install pre-commit
+
+lint:
+  stage: lint
+
+  script:
+    - pre-commit run markdownlint
+    - pre-commit run black
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+interrogate:
+  stage: interrogate
+
+  script:
+    - pre-commit run interrogate
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+license:
+  stage: license
+
+  script:
+    - python test/ci_tests/header_check.py --all-files
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+test:
+  stage: test
+
+  before_script:
+    - echo "Not implemented"
+
+  script:
+    - echo "Not implemented"
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"

@@ -1,0 +1,134 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1;
+
+vertices
+(
+    (-40.0 -22.0 -0.31759700179100037)   // vertex 0
+    ( 40.0 -22.0 -0.31759700179100037)   // vertex 1
+    ( 40.0  22.0 -0.31759700179100037)   // vertex 2
+    (-40.0  22.0 -0.31759700179100037)   // vertex 3
+    (-40.0 -22.0   19.682403564453125)   // vertex 4
+    ( 40.0 -22.0   19.682403564453125)   // vertex 5
+    ( 40.0  22.0   19.682403564453125)   // vertex 6
+    (-40.0  22.0   19.682403564453125)   // vertex 7
+    (-2.339  -22.0 -0.31759700179100037) // vertex 8
+    (-2.339   22.0 -0.31759700179100037) // vertex 9
+    (-2.339  -22.0   19.682403564453125) // vertex 10
+    (-2.339   22.0   19.682403564453125) // vertex 11
+);
+
+blocks
+(
+     hex (0 8 9 3 4 10 11 7) (45 99 31) simpleGrading (1 1 1) 
+     hex (8 1 2 9 10 5 6 11) (71 99 31) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    front_upstream
+    {
+        type patch;
+        faces
+        (
+            (3 9 11 7)
+        );
+    }
+    front_downstream
+    {
+        type patch;
+        faces
+        (
+            (9 2 6 11)
+        );
+    }
+
+    back_upstream
+    {
+    	type patch;
+	faces
+        (
+            (0 8 10 4)
+        );
+    }
+    back_downstream
+    {
+        type patch;
+        faces
+        (
+            (8 1 5 10)
+        );
+    }
+
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (2 6 5 1)
+        );
+    }
+    lowerWall_upstream
+    {
+        type wall;
+        faces
+        (
+            (0 3 9 8)
+        );
+    }
+    lowerWall_downstream
+    {
+        type wall;
+	faces
+	(
+	    (8 9 2 1)
+	);
+    }
+    upperWall_upstream
+    {
+        type patch;
+        faces
+        (
+            (4 10 11 7)
+        );
+    }
+    upperWall_downstream
+    {
+        type patch;
+        faces
+        (
+            (10 5 6 11)
+        );
+    }
+
+
+);
+
+
+// ************************************************************************* //

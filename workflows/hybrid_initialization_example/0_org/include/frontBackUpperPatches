@@ -1,0 +1,39 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+upperWall_upstream
+{
+    type slip;
+}
+
+upperWall_downstream
+{
+    type slip;
+}
+
+front_upstream
+{
+    type slip;
+}
+
+front_downstream
+{
+    type slip;
+}
+
+back_upstream
+{
+    type slip;
+}
+
+back_downstream
+{
+    type slip;
+}
+
+// ************************************************************************* //
