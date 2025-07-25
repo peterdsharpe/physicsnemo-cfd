@@ -80,12 +80,11 @@ In a separate shell, attempt to launch the OpenFOAM container:
 cd /path/to/physicsnemo-cfd
 
 # Launch the OpenFOAM + Python container with proper mounting
-# Note: for proper path mounting, this script MUST be run as-shown from the repository root directory.
 ./workflows/hybrid_initialization_example/openfoam_interactive.sh
 ```
 
 If this command is successful, you should be inside the container, with the
-entire `physicsnemo-cfd` repository mounted to `/workspace/`:
+entire `PhysicsNeMo-CFD` repository mounted to `/workspace/`:
 
 ```bash
 root@8a663debb154:/workspace# ls
