@@ -280,6 +280,7 @@ class DoMINOInference:
             >>> forces = results['aerodynamic_force']
             >>> print(f"Drag force: {forces[0]:.2f} N")
         """
+        torch.random.manual_seed(0)
 
         datapipe = DesignDatapipe(
             mesh=mesh,
@@ -316,13 +317,9 @@ class DoMINOInference:
         )
         geometry_sensitivity: np.ndarray = np.zeros_like(geometry_coordinates)
 
-        def _print_memory_usage(label: str) -> None:
-            if verbose:
-                print(
-                    f"VRAM usage after {label:<20}: {(torch.cuda.memory_allocated()/(1024**3)):.2f} GB"
-                )
-
-        for sample_batched in tqdm(dataloader, desc="Processing batches"):
+        for sample_batched in tqdm(
+            dataloader, desc="Processing batches", disable=not verbose
+        ):
             # Update input dictionary with surface mesh data from sampled batch
             input_dict_batch: dict[str, torch.Tensor] = {
                 **input_dict,
@@ -330,11 +327,7 @@ class DoMINOInference:
             }
             input_dict_batch["geometry_coordinates"].requires_grad_(True)
 
-            _print_memory_usage(label="data loading")
-
             prediction_vol_batch, prediction_surf_batch = self.model(input_dict_batch)
-
-            _print_memory_usage(label="model forward")
 
             # This is required to free memory. It's a bit atypical to do this,
             # but in this case it allows us to drop all references to the
@@ -367,7 +360,6 @@ class DoMINOInference:
             (
                 -1 * drag_force_batch
             ).backward()  # Vectors represent how you should modify the geometry to *reduce* drag
-            _print_memory_usage(label="surface backward")
 
             # Compute the sensitivity of the drag force to the geometry coordinates, from this batch
             geometry_sensitivity_batch = input_dict_batch["geometry_coordinates"].grad[
@@ -477,8 +469,7 @@ class DoMINOInference:
 if __name__ == "__main__":
     torch.cuda.set_per_process_memory_fraction(0.9)
 
-    config_path = Path() / ".." / "domino" / "src" / "conf"
-    assert config_path.exists(), f"{config_path=} does not exist!"
+    config_path = Path(".") / "conf"
     with hydra.initialize(version_base="1.3", config_path=str(config_path)):
         cfg: DictConfig = hydra.compose(config_name="config")
 
@@ -486,7 +477,7 @@ if __name__ == "__main__":
     dist = DistributedManager()
 
     if dist.world_size > 1:
-        torch.distributed.barrier()
+        torch.distributed.barrier()  # ty: ignore[possibly-unbound-attribute]
 
     domino = DoMINOInference(
         cfg=cfg,
@@ -496,7 +487,7 @@ if __name__ == "__main__":
 
     input_file = Path(__file__).parent / "geometries" / "drivaer_1_single_solid.stl"
 
-    mesh: pv.PolyData = pv.read(input_file)
+    mesh: pv.PolyData = pv.read(input_file)  # ty: ignore[invalid-assignment]
     results: dict[str, np.ndarray] = domino(
         mesh=mesh,
         stream_velocity=38.889,  # m/s
