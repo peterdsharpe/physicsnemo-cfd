@@ -23,26 +23,25 @@ sampled in the volume around the STL and on the surface of the STL. They are sto
 in a dictionary, which can be written out for visualization.
 """
 
+from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
+
 import hydra
-from omegaconf import DictConfig
-from tqdm import tqdm
-
 import numpy as np
+import pyvista as pv
 import torch
-
+from numpy.typing import NDArray
+from omegaconf import DictConfig
+from physicsnemo.distributed import DistributedManager
 from physicsnemo.models.domino.model import DoMINO
 from physicsnemo.utils.domino.utils import unnormalize
 from torch.nn.parallel import DistributedDataParallel
-from physicsnemo.distributed import DistributedManager
+from tqdm import tqdm
 
-from numpy.typing import NDArray
-import pyvista as pv
 from design_datapipe import DesignDatapipe
 from utilities.download import download
 from utilities.mesh_postprocessing import laplacian_smoothing
-from dataclasses import dataclass
 
 
 @dataclass

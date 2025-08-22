@@ -26,17 +26,13 @@ from typing import Literal, Sequence
 
 import numpy as np
 import pyvista as pv
-from numpy.typing import NDArray
-from cuml.neighbors import NearestNeighbors
-from torch.utils.data import Dataset
-
-from physicsnemo.utils.domino.utils import (
-    calculate_center_of_mass,
-    create_grid,
-    normalize,
-)
-from physicsnemo.utils.sdf import signed_distance_field
 import torch
+from cuml.neighbors import NearestNeighbors
+from numpy.typing import NDArray
+from physicsnemo.utils.domino.utils import (calculate_center_of_mass,
+                                            create_grid, normalize)
+from physicsnemo.utils.sdf import signed_distance_field
+from torch.utils.data import Dataset
 
 
 class DesignDatapipe(Dataset):
